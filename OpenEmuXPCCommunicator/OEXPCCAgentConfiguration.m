@@ -49,18 +49,21 @@ static NSString *agentsDirectory = nil;
     return [self OEXPCC_defaultConfigurationCreateIfNeeded:YES];
 }
 
+OEXPCCAgentConfiguration *sharedInstance = nil;
 + (OEXPCCAgentConfiguration *)OEXPCC_defaultConfigurationCreateIfNeeded:(BOOL)createIfNeeded
 {
-    static OEXPCCAgentConfiguration *sharedInstance = nil;
-
     if(createIfNeeded)
     {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
+        if (sharedInstance == nil) {
             sharedInstance = [[OEXPCCAgentConfiguration alloc] init];
-        });
+        }
+        
+        /*static dispatch_once_t onceToken;
+         dispatch_once(&onceToken, ^{
+         sharedInstance = [[OEXPCCAgentConfiguration alloc] init];
+         });*/
     }
-
+    
     return sharedInstance;
 }
 
