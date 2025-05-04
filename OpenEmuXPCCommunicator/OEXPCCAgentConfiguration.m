@@ -157,7 +157,9 @@ OEXPCCAgentConfiguration *sharedInstance = nil;
         if (!mkdtemp(tempDirectoryTemplate)) {
             [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Cannot create temporary agent plist directory." userInfo:nil];
         }
-        agentsDirectory = [[NSURL fileURLWithFileSystemRepresentation:tempDirectoryTemplate isDirectory:YES relativeToURL:nil] path];
+        NSString *tempPath = [NSString stringWithCString:tempDirectoryTemplate encoding:NSUTF8StringEncoding];
+        agentsDirectory = [[NSURL fileURLWithPath:tempPath isDirectory:YES] path];
+        free(tempDirectoryTemplate);
         return agentsDirectory;
     }
 }
